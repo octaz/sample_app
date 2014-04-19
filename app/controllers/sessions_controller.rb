@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
 		if user && user.authenticate(params[:password])
 			## correct entry
 			sign_in user
-			redirect_to user
+			redirect_back_or user
 		else
 			## incorrect with error
 			flash.now[:danger] = "Invalid email/password combination" # flash.now is quite correct causes flash to be immediately dropped on an additional request, vs next request
