@@ -52,6 +52,24 @@ describe "UserPages" do
             end.to change(User, :count).by(-1)
           end
           it {should_not have_link('delete', href: user_path(admin))}
+
+
+          describe "submitting to the delete action" do
+             it "should not be possible" do
+              expect { delete user_path(admin) }.to_not change(User, :count).by(-1)
+            end
+           ## before {delete user_path(admin)}
+            # specify {response.should redirect_to(root_url),
+            #           flash[:danger].should =~ /Cannot Delete Yourself!/i }
+
+          end
+
+          # it "should not be able to destroy itself" do
+          #   expect do
+          #     click_link('delete', href: user_path(admin))
+          #   end.to change(User, :count).by(0)
+          # end
+
         end
       end
 
@@ -82,6 +100,19 @@ describe "UserPages" do
         visit edit_user_path(user)
       end
 
+      describe "forbidden attributers" do
+        let(:params) do
+          {user: {admin: true, pasword: user.password, password_confirmation: user.password}}
+        end
+
+        before do
+          sign_in user, no_capybara:true
+          patch user_path(user), params
+        end
+
+        specify {expect(user.reload).not_to be_admin}
+      end
+
 
       describe "page" do
         it {should have_content("Update your profile")}
@@ -96,7 +127,7 @@ describe "UserPages" do
           fill_in "Name", with: new_name
           fill_in "Email", with: new_email
           fill_in "Password", with: user.password
-          fill_in "Confirmation", with: user.password
+          fill_in "Confirm Password", with: user.password
           click_button "Save changes"
         end
 
@@ -138,7 +169,7 @@ describe "UserPages" do
         fill_in "Name", with: "Example User"
         fill_in "Email", with: "example@email.com"
         fill_in "Password", with: "foobar"
-        fill_in "Confirmation", with: "foobar"
+        fill_in "Confirm Password", with: "foobar"
       end
 
       describe "after saving the user" do
