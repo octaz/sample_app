@@ -9,9 +9,15 @@ FactoryGirl.define do
 		factory :admin do
 			admin true
 		end
+
 		# name "Tbomb"  ##old cold
 		# email "tbomb@dabomb.bom"
 		# password "foobar"
 		# password_confirmation "foobar"
+	end
+
+	factory :micropost do
+		content "Lux Ipse"
+		user
 	end
 end

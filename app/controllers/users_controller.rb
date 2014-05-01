@@ -18,6 +18,7 @@ class UsersController < ApplicationController
 
   def show
   	@user = User.find(params[:id])
+    @microposts = @user.microposts.paginate(page: params[:page])
   end
 
   def edit
@@ -65,14 +66,15 @@ class UsersController < ApplicationController
   		params.require(:user).permit(:name, :email, :password, :password_confirmation)
   	end
 
-    def signed_in_user
-      if !signed_in?
-        store_location
-        flash[:warning] = "please sign in"
-        redirect_to signin_url
-      end
-     # redirect_to signin_url, warning: "Please sign in." unless signed_in?
-    end
+    #this method was moved to the sessions helper
+    # def signed_in_user 
+    #   if !signed_in?
+    #     store_location
+    #     flash[:warning] = "please sign in"
+    #     redirect_to signin_url
+    #   end
+    #  # redirect_to signin_url, warning: "Please sign in." unless signed_in?
+    # end
 
     def correct_user
       @user = User.find(params[:id])

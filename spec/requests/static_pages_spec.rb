@@ -31,6 +31,30 @@ describe "Static pages" do
     it_should_behave_like "all static pages"
     it {should_not have_title ('| Home')}
 
+  
+
+   
+
+    describe "for signed-in users" do
+      let(:user) {FactoryGirl.create(:user)}
+      before do
+        FactoryGirl.create(:micropost, user: user, created_at: 1.hour.ago, content: "veni, vedi, vici")
+        FactoryGirl.create(:micropost, user: user, created_at: 1.day.ago, content: "Lorem ipsum")
+        visit signin_path
+        fill_in "Email", with: user.email
+        fill_in "Password", with: user.password
+        click_button "Sign In"
+        visit root_path
+      end
+    
+      it "should render the user's feed" do
+        user.feed.each do |item|
+          expect(page).to have_selector("li##{item.id}", text: item.content)
+        end
+      end
+
+    end
+
    # it {should have_content('Sample App')}
    # it {should have_title(full_title(''))}
    # it {should_not have_title('| Home')}
