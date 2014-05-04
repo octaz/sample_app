@@ -53,6 +53,29 @@ describe "Static pages" do
         end
       end
 
+      it "should have the correct number of posts" do
+        expect(page).to have_content('microposts')
+        expect(page).to have_content(user.microposts.count)
+
+      end
+
+      describe "pagination" do
+
+        before {50.times {FactoryGirl.create(:micropost, user: user)}}
+       # after(:all) {Micropost.delete_all}
+       
+
+        before {visit root_path}
+
+        it {should have_selector('div.pagination')}
+
+        it "should list each micropost" do
+          Micropost.paginate(page: 1).each do |micropost|
+            expect(page).to have_selector('li', text: micropost.content)
+          end
+        end
+      end
+
     end
 
    # it {should have_content('Sample App')}

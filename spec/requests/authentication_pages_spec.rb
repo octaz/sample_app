@@ -6,8 +6,6 @@ describe "Authentication" do
 
 	describe "authorization" do
 		
-
-
 		describe "as a non-admin user" do
 			let(:user)  {FactoryGirl.create(:user)}
 			let(:non_admin) {FactoryGirl.create(:user)}
@@ -27,17 +25,11 @@ describe "Authentication" do
 
 
 			describe "in the users controller" do
-
 				describe "when visiting the index page" do
-
 					before {visit users_path}
 					it {should have_title('Sign In')}
-
 				end
-
-
 			end
-
 
 
 			describe "when attempting to visit a protected page" do
@@ -81,9 +73,17 @@ describe "Authentication" do
 
 			before {sign_in user, no_capybara: true} 
 
+			describe "should not be able delete other microposts" do
+				before do
+					50.times {FactoryGirl.create(:micropost, user: wrong_user)}
+					sign_in user
+					visit user_path(wrong_user)
+				end
+
+				it {should_not have_content("delete")}
 
 
-
+			end
 
 			describe "submitting a GET request to the Users#edit action" do
 				before {get edit_user_path(wrong_user) }
