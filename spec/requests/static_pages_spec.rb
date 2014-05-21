@@ -53,6 +53,20 @@ describe "Static pages" do
         end
       end
 
+      describe "follower/following counts" do
+        let (:a_user) {FactoryGirl.create(:user)}
+        let(:b_user) {FactoryGirl.create(:user)}       
+        before do
+         
+          user.follow!(a_user)
+          b_user.follow!(user)
+          visit root_path
+        end
+
+        it {should have_link("1 following", href: following_user_path(user))}
+        it {should have_link("1 followers", href: followers_user_path(user))}
+      end
+
       it "should have the correct number of posts" do
         expect(page).to have_content('microposts')
         expect(page).to have_content(user.microposts.count)

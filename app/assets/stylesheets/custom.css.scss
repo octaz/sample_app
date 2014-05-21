@@ -5,6 +5,7 @@
 $grayMediumLight: #eaeaea;
 $grayLighter: #eaeaee;
 $grayLight: #e8e8e8;
+$blue: #0000FF;
 
 @mixin box_sizing{
 	-moz-box-sizing: border-box;
@@ -122,11 +123,11 @@ footer {
 	@include box_sizing;
 }
 
-/* show page */
+/* sidebar */
 
 aside {
-	section{
-		padding: 10 px 0;
+	section {
+		padding: 10px 0;
 		border-top: 1px solid $grayLighter;
 		&:first-child{
 			border: 0;
@@ -223,8 +224,8 @@ input {
 
 aside {
 	textarea{
-	height: 100px;
-	margin-bottom: 5px;
+		height: 100px;
+		margin-bottom: 5px;
 	}
 }
 
@@ -233,4 +234,39 @@ aside {
 .remaining, .counter {
   display: inline;
   float: right;
+}
+
+
+
+
+.stats {
+	
+	
+	overflow: auto;
+	a {
+		float: left;
+		padding: 0 10px;
+		border-left: 1px solid $grayLighter;
+		color: gray;
+		&:first-child {
+			padding-left: 0;
+			border: 0;
+		}
+		&:hover {
+			text-decoration: none;
+			color: $blue;
+		}
+		strong{
+			display: block;
+		}
+	}
+}
+
+.user_avatars {
+	float: left;
+	overflow: auto;
+	margin-top: 10px;
+	.gravatar {
+		margin: 1px 1px;
+	}
 }

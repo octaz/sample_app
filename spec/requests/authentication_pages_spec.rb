@@ -29,6 +29,9 @@ describe "Authentication" do
 					before {visit users_path}
 					it {should have_title('Sign In')}
 				end
+
+
+
 			end
 
 
@@ -106,6 +109,16 @@ describe "Authentication" do
 				it{should_not have_link('Settings', href: edit_user_path(:user))}
 				it {should_not have_link('Profile', href: user_path(:user))}
 
+				describe "when visiting the followers page" do
+					before {visit followers_user_path(user)}
+					it {should have_title('Sign In')}
+				end
+
+				describe "when visiing the following page" do
+					before {visit following_user_path(user)}
+					it {should have_title('Sign In')}
+				end
+
 				describe "visiting the edit page" do
 					before { visit edit_user_path(user)}
 					it {should have_title('Sign In')}
@@ -114,6 +127,19 @@ describe "Authentication" do
 				describe "submitting to the update action" do
 					before {patch user_path(user)}
 					specify {expect(response).to redirect_to(signin_path)}
+				end
+
+				describe "in the Relationhips controller " do
+
+					describe "submitting to the create action" do
+						before {post relationships_path}
+						specify {expect(response).to redirect_to(signin_path)}
+					end
+					describe "submitting to the delete action" do
+						before {delete relationship_path(1)}
+						specify {expect(response).to redirect_to(signin_path)}
+					end
+					
 				end
 
 			end

@@ -1,15 +1,24 @@
 <div class="row">
-		<aside class ="span4">
-			<section>
-				<%= render 'shared/user_info' %>
-			</section>
+		<aside class ="col-md-4">
+		<!-- 	<div id = "sidebar"> -->
+			
+				<section>
+					<%= render 'shared/user_info' %>
+				</section>
+
+				<section>
+					<%= render 'shared/stats' %>
+				</section>
+			
+			
+		
 			<section>
 				<%= render 'shared/micropost_form' %>
 			</section>
 		</aside>
 
-		<div class = "span8">
+		<div class = "col-md-8">
 			<h3>Micropost Feed</h3>
 			<%= render 'shared/feed' %>
 		</div>
-</div>
+</div> 609 471 1526
